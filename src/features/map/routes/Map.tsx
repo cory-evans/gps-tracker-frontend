@@ -7,15 +7,15 @@ import 'leaflet/dist/leaflet.css';
 export const Map = () => {
   return (
     <MainLayout>
-      <div className="flex flex-1">
+      <div className="flex h-full">
         <DeviceSidebar />
 
         <div className="flex-1">
           <MapContainer
-            center={[51.505, -0.09]}
+            center={[-39.520397, 176.86227]}
             zoom={13}
             scrollWheelZoom={true}
-            style={{ height: '100%' }}
+            className="h-full"
           >
             <TileLayer
               attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'

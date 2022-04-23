@@ -1,26 +1,22 @@
 import * as React from 'react';
 import { Button } from '../../../components/Elements/Button/Button';
 import { MainLayout } from '../../../components/Layout';
-import { useAppDispatch } from '../../../hooks';
-import { setRefreshToken, setToken } from '../reducer';
 import { useNavigate } from 'react-router-dom';
-import { loginWithEmailPassword } from '../api/login';
+import { useAuth } from '../hooks/useAuth';
 
 export const Login = () => {
-  const dispatch = useAppDispatch();
   const navigate = useNavigate();
+
+  const { login } = useAuth();
 
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    await loginWithEmailPassword({ email, password }).then((data) => {
-      dispatch(setToken(data.token));
-      dispatch(setRefreshToken(data.refreshToken));
-    });
-
-    navigate('/');
+    if (await login(email, password)) {
+      navigate('/map');
+    }
   };
   return (
     <MainLayout>

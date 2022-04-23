@@ -1,6 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 import authReducer from '../features/auth/reducer';
 import deviceReducer from '../features/devices/reducer';
+import notificationReducer from '../features/notifications/reducer';
 import {
   persistStore,
   persistReducer,
@@ -20,6 +21,7 @@ export const store = configureStore({
   reducer: {
     auth: persistedAuthReducer,
     devices: persistedDeviceReducer,
+    notifications: notificationReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

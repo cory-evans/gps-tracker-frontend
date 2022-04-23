@@ -1,5 +1,7 @@
+import { nanoid } from 'nanoid';
 import Axios, { AxiosRequestConfig } from 'axios';
 import { API_URL } from '../config';
+import { pushNotification } from '../features/notifications/reducer';
 import { store } from '../store';
 
 function authRequestInterceptor(config: AxiosRequestConfig) {
@@ -33,7 +35,15 @@ axios.interceptors.response.use(
   },
   (error) => {
     // TODO: push error to store
-    // const message = error.response.data.message || error.message;
+    const errorTitle = error.response?.data?.message || error.message;
+
+    store.dispatch(
+      pushNotification({
+        id: nanoid(),
+        type: 'error',
+        title: errorTitle,
+      })
+    );
 
     return Promise.reject(error);
   }

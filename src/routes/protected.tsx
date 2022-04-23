@@ -3,7 +3,7 @@ import { Map } from '../features/map';
 
 export const protectedRoutes = [
   {
-    path: '/',
+    path: '/map',
     element: <Map />,
   },
   {
