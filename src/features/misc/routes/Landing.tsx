@@ -1,19 +1,21 @@
-import { MainLayout } from '../../../components/Layout';
 import { useAuth } from '../../auth/hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 
 export const Landing = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
 
-  if (user) {
-    navigate('/map', { replace: true });
-  }
+  useEffect(() => {
+    if (user) {
+      navigate('/map', { replace: true });
+    }
+  }, [user, navigate]);
 
   return (
-    <MainLayout>
+    <div>
       <h1>This is the landing page</h1>
       <pre>{JSON.stringify(user, null, 4)}</pre>
-    </MainLayout>
+    </div>
   );
 };

@@ -2,37 +2,36 @@ import clsx from 'clsx';
 import * as React from 'react';
 
 const variants = {
-  primary: 'bg-blue-600 text-white hover:bg-gray-50 hover:text-blue-600',
-  inverse: 'bg-white text-blue-600 hover:bg-blue-600 hover:text-white',
-  danger: 'bg-red-600 text-white hover:bg-red-50 hover:text-red-600',
+  primary: 'bg-primary-600 text-white hover:bg-primary-200 hover:text-primary-700',
+  inverse: 'bg-white text-primary-600 hover:bg-primary-100',
+  danger: 'bg-danger-600 text-white hover:bg-danger-200 hover:text-danger-700',
 };
 
 const sizes = {
   sm: 'py-2 px-4 text-sm rounded-sm',
-  md: 'py-2 px-6 text-md rounded',
-  lg: 'py-3 px-8 text-lg rounded',
+  md: 'py-2 px-6 text-md rounded-lg',
+  lg: 'py-3 px-8 text-lg rounded-lg',
 };
-
-type IconProps =
-  | { startIcon: React.ReactElement; endIcon?: never }
-  | { endIcon: React.ReactElement; startIcon?: never }
-  | { endIcon?: undefined; startIcon?: undefined };
 
 export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   variant?: keyof typeof variants;
   size?: keyof typeof sizes;
   isLoading?: boolean;
-} & IconProps;
+};
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ type = 'button', className = '', variant = 'primary', size = 'md', ...props }, ref) => {
+  (
+    { type = 'button', className = '', variant = 'primary', size = 'md', children, ...props },
+    ref
+  ) => {
     return (
       <button
         ref={ref}
         type={type}
-        className={clsx('transition-colors', variants[variant], sizes[size], className)}
+        className={clsx('transition-colors border', variants[variant], sizes[size], className)}
+        {...props}
       >
-        {props.children}
+        {children}
       </button>
     );
   }

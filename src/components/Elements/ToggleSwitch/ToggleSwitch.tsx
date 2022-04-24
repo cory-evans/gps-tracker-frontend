@@ -2,9 +2,9 @@ import { Switch } from '@headlessui/react';
 import clsx from 'clsx';
 
 const variants = {
-  primary: 'bg-blue-600',
+  primary: 'bg-primary-600',
   inverse: 'bg-white',
-  danger: 'bg-red-600',
+  danger: 'bg-danger-600',
 };
 
 type Size = {

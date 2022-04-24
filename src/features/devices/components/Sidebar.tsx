@@ -4,8 +4,8 @@ import { RefreshIcon } from '@heroicons/react/solid';
 import { useAppSelector, useAppDispatch } from '../../../hooks';
 import { hideDevice, selectDevices, selectHiddenDevices, setDevices, showDevice } from '../reducer';
 import type { Device } from '../types';
-import ToggleSwitch from '../../../components/Elements/ToggleSwitch/ToggleSwitch';
 import { getOwnedDevices } from '../api/getDevices';
+import { EyeIcon, EyeOffIcon } from '@heroicons/react/outline';
 
 export const DeviceSidebar = () => {
   const dispatch = useAppDispatch();
@@ -40,8 +40,7 @@ type DeviceEntryProps = {
   device: Device;
 } & React.ComponentProps<'li'>;
 
-// const DeviceEntry = ({ device, ...props }: DeviceEntryProps) => {
-const DeviceEntry = ({ device, className, ...props }: DeviceEntryProps) => {
+const DeviceEntry = ({ device, className }: DeviceEntryProps) => {
   const dispatch = useAppDispatch();
   const hiddenDevices = useAppSelector(selectHiddenDevices);
   const show = hiddenDevices.indexOf(device.deviceId) === -1;
@@ -62,7 +61,9 @@ const DeviceEntry = ({ device, className, ...props }: DeviceEntryProps) => {
       )}
     >
       <span>{device.name}</span>
-      <ToggleSwitch enabled={show} onChange={toggleOnClick} settingName="" />
+      <button onClick={() => toggleOnClick(!show)}>
+        {show ? <EyeIcon className="h-6 w-6" /> : <EyeOffIcon className="h-6 w-6" />}
+      </button>
     </li>
   );
 };

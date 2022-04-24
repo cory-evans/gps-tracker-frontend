@@ -30,7 +30,7 @@ export const Notification = ({ type, title, message, onDismiss, persist }: Notif
   }
 
   return (
-    <div className="w-full flex flex-col items-start">
+    <div className="w-full flex flex-col items-center">
       <Transition
         show={true}
         as={Fragment}

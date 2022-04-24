@@ -1,5 +1,12 @@
 import { Menu } from '@headlessui/react';
-import { MenuIcon } from '@heroicons/react/outline';
+import {
+  UserIcon,
+  MapIcon,
+  CollectionIcon,
+  HomeIcon,
+  LogoutIcon,
+  AdjustmentsIcon,
+} from '@heroicons/react/outline';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../features/auth/hooks/useAuth';
 import clsx from 'clsx';
@@ -7,60 +14,73 @@ import clsx from 'clsx';
 type NavigationItem = {
   to: string;
   label: string;
+  icon: React.ReactNode;
   onClick?: () => void;
 };
 
+const iconClassName =
+  'w-12 h-12 p-2 rounded-full text-white hover:text-primary-600 hover:bg-white hover:shadow-sm transition-colors';
+
 export const Navigation = () => {
-  const { user, logout } = useAuth();
+  const { logout } = useAuth();
 
   const items = [
-    user && { to: '/map', label: 'Home' },
-    user && { to: '/devices', label: 'Devices' },
-    !user && { to: '/auth/login', label: 'Login' },
-    user && { to: '', label: 'Logout', onClick: logout },
+    { to: '/map', label: 'Home', icon: <MapIcon className={iconClassName} /> },
+    { to: '/devices', label: 'Devices', icon: <CollectionIcon className={iconClassName} /> },
   ].filter(Boolean) as NavigationItem[];
 
   return (
-    <Menu as="div" className="ml-3 relative">
-      {({ open }) => (
-        <>
-          <div>
-            <Menu.Button className="max-w-xs bg-gray-200 p-2 flex items-center text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-              <span className="sr-only">Open user menu</span>
-              <MenuIcon className="h-8 w-8 rounded-full" />
-            </Menu.Button>
-          </div>
-          {/* <Transition
-            show={true}
-            as={React.Fragment}
-            enter="transition ease-out duration-100"
-            enterFrom="transform opacity-0 scale-95"
-            enterTo="transform opacity-100 scale-100"
-            leave="transition ease-in duration-75"
-            leaveFrom="transform opacity-100 scale-100"
-            leaveTo="transform opacity-0 scale-95"
-          > */}
-          <Menu.Items className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
-            {items.map((item) => (
-              <Menu.Item key={item.label}>
-                {({ active }) => (
-                  <Link
-                    onClick={item.onClick}
-                    to={item.to}
-                    className={clsx(
-                      active ? 'bg-gray-100' : '',
-                      'block px-4 py-2 text-sm text-gray-700'
-                    )}
-                  >
-                    {item.label}
-                  </Link>
-                )}
-              </Menu.Item>
-            ))}
+    <nav className="flex flex-col bg-primary-700">
+      <div className="flex justify-center p-2 shadow-sm">
+        <Link to="/">
+          <HomeIcon className={iconClassName} />
+        </Link>
+      </div>
+      <ul className="flex flex-col flex-1 bg-primary-600 p-2">
+        {items.map(({ to, label, icon }) => (
+          <li key={to}>
+            <Link to={to}>
+              <span className="sr-only">{label}</span>
+              {icon}
+            </Link>
+          </li>
+        ))}
+      </ul>
+      <div className="flex justify-center p-2 bg-primary-600">
+        <Menu as="div" className="relative">
+          <Menu.Button>
+            <UserIcon className={iconClassName} />
+          </Menu.Button>
+          <Menu.Items
+            className={clsx(
+              'z-40 absolute origin-bottom-right left-full bottom-1/3',
+              'w-56 rounded shadow-xl',
+              'ring ring-primary-500 bg-white',
+              'p-1'
+            )}
+          >
+            <Menu.Item>
+              {({ active }) => (
+                <Link
+                  to="/settings"
+                  className="p-1 flex items-center space-x-2 rounded hover:bg-primary-500 hover:text-white hover:shadow"
+                >
+                  <AdjustmentsIcon className="h-8 w-8" />
+                  <span>Settings</span>
+                </Link>
+              )}
+            </Menu.Item>
+            <Menu.Item onClick={logout}>
+              {({ active }) => (
+                <div className="p-1 flex items-center space-x-2 cursor-pointer rounded hover:bg-danger-500 hover:text-white hover:shadow">
+                  <LogoutIcon className="h-8 w-8" />
+                  <span>Logout</span>
+                </div>
+              )}
+            </Menu.Item>
           </Menu.Items>
-          {/* </Transition> */}
-        </>
-      )}
-    </Menu>
+        </Menu>
+      </div>
+    </nav>
   );
 };
