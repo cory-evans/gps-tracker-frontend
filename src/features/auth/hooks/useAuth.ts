@@ -9,7 +9,7 @@ export const useAuth = () => {
   const user = useAppSelector(selectUser);
 
   const logout = async () => {
-    await axios.post('/auth/signout').catch(() => {});
+    await axios.post('/auth/session/remove').catch(() => {});
 
     dispatch(setToken(null));
     dispatch(setRefreshToken(null));
@@ -27,10 +27,11 @@ export const useAuth = () => {
       email,
       password,
     }).then((data) => {
-      dispatch(setToken(data.token));
-      dispatch(setRefreshToken(data.refreshToken));
-      dispatch(setExpireAtUTC(data.expiresAtUTC));
-      dispatch(setUser(data.user));
+      const session = data.session;
+      dispatch(setToken(session.token));
+      dispatch(setRefreshToken(session.refreshToken));
+      dispatch(setExpireAtUTC(session.expiresAtUTC));
+      dispatch(setUser(session.user));
       loginSuccess = true;
     });
 

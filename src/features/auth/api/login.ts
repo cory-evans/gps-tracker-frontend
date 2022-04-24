@@ -7,5 +7,5 @@ export type LoginCredentials = {
 };
 
 export const loginWithEmailPassword = (data: LoginCredentials): Promise<LoginResponse> => {
-  return axios.post('/auth/signin', data);
+  return axios.post('/auth/session/create', data);
 };

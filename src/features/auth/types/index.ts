@@ -5,8 +5,11 @@ export type User = {
 };
 
 export type LoginResponse = {
-  token: string;
-  refreshToken: string;
-  expiresAtUTC: number;
-  user: User;
+  session: {
+    token: string;
+    refreshToken: string;
+    expiresAtUTC: number;
+    user: User;
+    name: string;
+  };
 };
