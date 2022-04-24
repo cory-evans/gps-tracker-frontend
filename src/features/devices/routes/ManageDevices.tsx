@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
-import { MainLayout } from '../../../components/Layout';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { getOwnedDevices } from '../api/getDevices';
+import { DeviceLayout } from '../components/DeviceLayout';
 import { selectDevices, setDevices } from '../reducer';
 
 export const ManageDevices = () => {
@@ -16,13 +16,12 @@ export const ManageDevices = () => {
   }, [dispatch]);
 
   return (
-    <MainLayout>
-      <h1>Manage Devices</h1>
+    <DeviceLayout>
       <ul>
         {devices.map((device) => (
           <li key={device.deviceId}>{device.name}</li>
         ))}
       </ul>
-    </MainLayout>
+    </DeviceLayout>
   );
 };

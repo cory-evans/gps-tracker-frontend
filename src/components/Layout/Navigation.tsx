@@ -3,9 +3,9 @@ import {
   UserIcon,
   MapIcon,
   CollectionIcon,
-  HomeIcon,
   LogoutIcon,
   AdjustmentsIcon,
+  CubeTransparentIcon,
 } from '@heroicons/react/outline';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../features/auth/hooks/useAuth';
@@ -26,14 +26,14 @@ export const Navigation = () => {
 
   const items = [
     { to: '/map', label: 'Home', icon: <MapIcon className={iconClassName} /> },
-    { to: '/devices', label: 'Devices', icon: <CollectionIcon className={iconClassName} /> },
+    { to: '/devices/manage', label: 'Devices', icon: <CollectionIcon className={iconClassName} /> },
   ].filter(Boolean) as NavigationItem[];
 
   return (
     <nav className="flex flex-col bg-primary-700">
       <div className="flex justify-center p-2 shadow-sm">
         <Link to="/">
-          <HomeIcon className={iconClassName} />
+          <CubeTransparentIcon className={iconClassName} />
         </Link>
       </div>
       <ul className="flex flex-col flex-1 bg-primary-600 p-2">
@@ -62,7 +62,7 @@ export const Navigation = () => {
             <Menu.Item>
               {({ active }) => (
                 <Link
-                  to="/settings"
+                  to="/settings/account"
                   className="p-1 flex items-center space-x-2 rounded hover:bg-primary-500 hover:text-white hover:shadow"
                 >
                   <AdjustmentsIcon className="h-8 w-8" />

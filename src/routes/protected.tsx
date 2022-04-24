@@ -1,4 +1,4 @@
-import { ManageDevices } from '../features/devices';
+import { DeviceRoutes } from '../features/devices';
 import { Map } from '../features/map';
 import { SettingsRoutes } from '../features/settings';
 
@@ -8,8 +8,8 @@ export const protectedRoutes = [
     element: <Map />,
   },
   {
-    path: '/devices',
-    element: <ManageDevices />,
+    path: '/devices/*',
+    element: <DeviceRoutes />,
   },
   {
     path: '/settings/*',

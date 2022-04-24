@@ -1,1 +1,1 @@
-export * from './routes/ManageDevices';
+export * from './routes';
