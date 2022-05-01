@@ -1,6 +1,7 @@
 import { useAuth } from '../../auth/hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
+import { Button } from '../../../components/Elements/Button/Button';
 
 export const Landing = () => {
   const navigate = useNavigate();
@@ -15,7 +16,8 @@ export const Landing = () => {
   return (
     <div>
       <h1>This is the landing page</h1>
-      <pre>{JSON.stringify(user, null, 4)}</pre>
+
+      <Button onClick={() => navigate('/auth/login')}>Go To Login Page</Button>
     </div>
   );
 };

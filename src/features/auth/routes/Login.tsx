@@ -3,6 +3,7 @@ import { Button } from '../../../components/Elements/Button/Button';
 import { MainLayout } from '../../../components/Layout';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
+import { Input } from '../../../components/Elements/Input/Input';
 
 export const Login = () => {
   const navigate = useNavigate();
@@ -23,12 +24,12 @@ export const Login = () => {
       <div className="flex-1 flex justify-around">
         <div className="">
           <form
-            className="bg-white p-4 m-4 rounded flex flex-col space-y-2"
+            className="bg-white shadow-lg p-4 m-4 rounded flex flex-col space-y-2"
             onSubmit={handleSubmit}
           >
             <div className="flex flex-col">
               <label htmlFor="email">Email</label>
-              <input
+              <Input
                 type="email"
                 name="email"
                 id="email"
@@ -40,7 +41,7 @@ export const Login = () => {
             </div>
             <div className="flex flex-col">
               <label htmlFor="password">Password</label>
-              <input
+              <Input
                 type="password"
                 name="password"
                 id="password"
