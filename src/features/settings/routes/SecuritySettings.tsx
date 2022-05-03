@@ -8,19 +8,6 @@ import { SettingsLayout } from '../components/Layout/SettingsLayout';
 import type { Device } from '../../devices/types';
 
 export const SecuritySettings = () => {
-  // const devices = [
-  //   {
-  //     name: 'My iPhone',
-  //     deviceId: '4e22f3fa-c3a8-11ec-9d64-0242ac120002',
-  //     lastSeen: new Date(Date.now() - 4948 * 60 * 60 * 24 * 7),
-  //   },
-  //   {
-  //     name: 'My iPad',
-  //     deviceId: '674e6ada-c3a8-11ec-9d64-0242ac120002',
-  //     lastSeen: new Date(Date.now() - 1655 * 60 * 60 * 24 * 2),
-  //   },
-  // ];
-
   const devices = useAppSelector(selectDevices);
 
   const { signOutEverywhere } = useAuth();
