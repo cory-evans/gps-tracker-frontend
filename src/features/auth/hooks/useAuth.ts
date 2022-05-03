@@ -8,15 +8,19 @@ export const useAuth = () => {
   const dispatch = useAppDispatch();
   const user = useAppSelector(selectUser);
 
-  const logout = async () => {
-    await axios.post('/auth/session/remove').catch(() => {});
-
+  const clearAuthState = () => {
     dispatch(setToken(null));
     dispatch(setRefreshToken(null));
     dispatch(setExpireAtUTC(null));
     dispatch(setUser(null));
 
     dispatch(setDevices([]));
+  };
+
+  const logout = async () => {
+    await axios.post('/auth/session/remove').catch(() => {});
+
+    clearAuthState();
 
     window.location.assign(window.location.origin);
   };
@@ -38,9 +42,17 @@ export const useAuth = () => {
     return loginSuccess;
   };
 
+  const signOutEverywhere = async () => {
+    await axios.post('/auth/session/invalidate').catch(() => {});
+
+    clearAuthState();
+
+    window.location.assign(window.location.origin);
+  };
   return {
     user,
     login,
     logout,
+    signOutEverywhere,
   };
 };

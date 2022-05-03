@@ -1,20 +1,30 @@
 import { Button } from '../../../components/Elements/Button/Button';
 import { ConfirmationDialog } from '../../../components/Elements/ConfirmationDialog';
+import { useAppSelector } from '../../../hooks';
+import { useAuth } from '../../auth/hooks/useAuth';
+import { selectDevices } from '../../devices/reducer';
 import { SettingsLayout } from '../components/Layout/SettingsLayout';
 
+import type { Device } from '../../devices/types';
+
 export const SecuritySettings = () => {
-  const devices = [
-    {
-      name: 'My iPhone',
-      deviceId: '4e22f3fa-c3a8-11ec-9d64-0242ac120002',
-      lastSeen: new Date(Date.now() - 4948 * 60 * 60 * 24 * 7),
-    },
-    {
-      name: 'My iPad',
-      deviceId: '674e6ada-c3a8-11ec-9d64-0242ac120002',
-      lastSeen: new Date(Date.now() - 1655 * 60 * 60 * 24 * 2),
-    },
-  ];
+  // const devices = [
+  //   {
+  //     name: 'My iPhone',
+  //     deviceId: '4e22f3fa-c3a8-11ec-9d64-0242ac120002',
+  //     lastSeen: new Date(Date.now() - 4948 * 60 * 60 * 24 * 7),
+  //   },
+  //   {
+  //     name: 'My iPad',
+  //     deviceId: '674e6ada-c3a8-11ec-9d64-0242ac120002',
+  //     lastSeen: new Date(Date.now() - 1655 * 60 * 60 * 24 * 2),
+  //   },
+  // ];
+
+  const devices = useAppSelector(selectDevices);
+
+  const { signOutEverywhere } = useAuth();
+
   return (
     <SettingsLayout>
       <div className="flex-1">
@@ -28,7 +38,7 @@ export const SecuritySettings = () => {
               <ul className="flex flex-col space-y-2">
                 {devices.map((device) => (
                   <li key={device.name}>
-                    <ManageDevice {...device} />
+                    <ManageDevice device={device} />
                   </li>
                 ))}
               </ul>
@@ -50,7 +60,11 @@ export const SecuritySettings = () => {
                 title="Sign Out Everywhere"
                 body="Are you sure you want to sign out of every browser you are using?"
                 triggerButton={<Button variant="danger">Sign Out Everywhere</Button>}
-                confirmButton={<Button variant="danger">Sign Out Everywhere</Button>}
+                confirmButton={
+                  <Button variant="danger" onClick={signOutEverywhere}>
+                    Sign Out Everywhere
+                  </Button>
+                }
               />
             </div>
           </div>
@@ -61,18 +75,17 @@ export const SecuritySettings = () => {
 };
 
 type ManageDeviceProps = {
-  name: string;
-  deviceId: string;
-  lastSeen: Date;
+  device: Device;
 };
 
-const ManageDevice = ({ name, lastSeen, deviceId }: ManageDeviceProps) => {
+const ManageDevice = ({ device }: ManageDeviceProps) => {
+  const lastSeen = new Date(Date.now() - 1655 * 60 * 60 * 24 * 2);
   return (
     <div className="bg-white rounded shadow p-4 text-gray-600 cursor-pointer">
       <div className="flex items-center justify-between ">
         <div className="flex flex-col">
-          <h3 className="font-bold">{name}</h3>
-          <span className="text-gray-600 text-sm">ID: {deviceId}</span>
+          <h3 className="font-bold">{device.name}</h3>
+          <span className="text-gray-600 text-sm">ID: {device.deviceId}</span>
           <span className="text-gray-600 text-sm">Last seen: {lastSeen.toLocaleString()}</span>
         </div>
       </div>
