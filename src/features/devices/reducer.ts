@@ -1,15 +1,17 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../../store';
-import { Device } from './types';
+import { Device, Position } from './types';
 
 interface DeviceState {
   devices: Device[];
   hiddenDevices: string[];
+  devicePositions: Position[];
 }
 
 const initialState: DeviceState = {
   devices: [],
   hiddenDevices: [],
+  devicePositions: [],
 };
 
 export const deviceSlice = createSlice({
@@ -38,10 +40,14 @@ export const deviceSlice = createSlice({
     showDevice: (state, action: PayloadAction<string>) => {
       state.hiddenDevices = state.hiddenDevices.filter((deviceId) => deviceId !== action.payload);
     },
+    setDevicePositions: (state, action: PayloadAction<Position[]>) => {
+      state.devicePositions = action.payload;
+    },
   },
 });
 
-export const { setDevices, hideDevice, showDevice } = deviceSlice.actions;
+export const { setDevices, hideDevice, showDevice, setDevicePositions } = deviceSlice.actions;
 export const selectDevices = (state: RootState) => state.devices.devices;
 export const selectHiddenDevices = (state: RootState) => state.devices.hiddenDevices;
+export const selectDevicePositions = (state: RootState) => state.devices.devicePositions;
 export default deviceSlice.reducer;
