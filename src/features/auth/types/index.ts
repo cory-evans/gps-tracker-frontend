@@ -10,7 +10,7 @@ export type LoginResponse = {
   session: {
     token: string;
     refreshToken: string;
-    expiresAtUTC: number;
+    expiresAt: string;
     user: User;
     name: string;
   };

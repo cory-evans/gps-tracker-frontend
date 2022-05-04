@@ -4,7 +4,17 @@ import { API_URL } from '../config';
 import { pushNotification } from '../features/notifications/reducer';
 import { store } from '../store';
 
-function authRequestInterceptor(config: AxiosRequestConfig) {
+export const axios = Axios.create({
+  baseURL: API_URL,
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
+
+axios.defaults.headers.common['Accept'] = 'application/json';
+axios.defaults.headers.common['Content-Type'] = 'application/json';
+
+async function authRequestInterceptor(config: AxiosRequestConfig) {
   const state = store.getState();
   const token = state.auth.token;
 
@@ -19,22 +29,12 @@ function authRequestInterceptor(config: AxiosRequestConfig) {
   return config;
 }
 
-export const axios = Axios.create({
-  baseURL: API_URL,
-  headers: {
-    'Content-Type': 'application/json',
-  },
-});
-
-axios.defaults.headers.common['Accept'] = 'application/json';
-axios.defaults.headers.common['Content-Type'] = 'application/json';
 axios.interceptors.request.use(authRequestInterceptor);
 axios.interceptors.response.use(
   (response) => {
     return response.data;
   },
   (error) => {
-    // TODO: push error to store
     const errorTitle = error.response?.data?.message || error.message;
 
     store.dispatch(
