@@ -68,6 +68,29 @@ export const useAuth = () => {
     return loginSuccess;
   };
 
+  const register = async (
+    email: string,
+    password: string,
+    firstName: string,
+    lastName: string,
+    displayName: string
+  ) => {
+    var createUserSuccess = false;
+    await axios
+      .post('/auth/user/create', {
+        email,
+        password,
+        displayName,
+        lastName,
+        firstName,
+      })
+      .then((data) => {
+        createUserSuccess = true;
+      });
+
+    return createUserSuccess;
+  };
+
   const signOutEverywhere = async () => {
     await axios.post('/auth/session/invalidate').catch(() => {});
 
@@ -78,6 +101,7 @@ export const useAuth = () => {
 
   return {
     user,
+    register,
     login,
     logout,
     signOutEverywhere,

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Button } from '../../../components/Elements/Button/Button';
 import { MainLayout } from '../../../components/Layout';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import { Input } from '../../../components/Elements/Input/Input';
 
@@ -24,9 +24,10 @@ export const Login = () => {
       <div className="flex-1 flex justify-around">
         <div className="">
           <form
-            className="bg-white shadow-lg p-4 m-4 rounded flex flex-col space-y-2"
+            className="bg-white shadow-lg p-4 m-4 rounded flex flex-col space-y-2 sm:min-w-[460px]"
             onSubmit={handleSubmit}
           >
+            <h1 className="text-center text-2xl font-semibold pb-4">Login</h1>
             <div className="flex flex-col">
               <label htmlFor="email">Email</label>
               <Input
@@ -52,8 +53,10 @@ export const Login = () => {
               />
             </div>
             <div></div>
-            <div className="flex">
-              <div className="flex-1"></div>
+            <div className="flex justify-between items-baseline">
+              <Link to="/auth/register" className="text-gray-500 hover:underline">
+                Register
+              </Link>
               <Button variant="primary" size="md" type="submit">
                 Login
               </Button>
