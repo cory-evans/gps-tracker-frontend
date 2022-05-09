@@ -21,3 +21,8 @@ export type GetOwnedDevicesResponse = {
 export type GetOwnedDevicesPositionResponse = {
   positions: Position[];
 };
+
+export type CreateDeviceResponse = {
+  token: string;
+  device: Device;
+};
