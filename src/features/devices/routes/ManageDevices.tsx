@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { Button } from '../../../components/Elements/Button/Button';
 import { ConfirmationDialog } from '../../../components/Elements/ConfirmationDialog';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
+import { deleteDevice } from '../api/deleteDevice';
 import { getOwnedDevices } from '../api/getDevices';
 import { DeviceLayout } from '../components/DeviceLayout';
 import { selectDevicePositions, selectDevices, setDevices } from '../reducer';
@@ -13,10 +14,13 @@ export const ManageDevices = () => {
   const devices = useAppSelector(selectDevices);
   const devicePositions = useAppSelector(selectDevicePositions);
 
-  useEffect(() => {
+  const refresh_devices = () => {
     getOwnedDevices().then((data) => {
       dispatch(setDevices(data.devices));
     });
+  };
+  useEffect(() => {
+    refresh_devices();
   }, [dispatch]);
 
   return (
@@ -34,7 +38,15 @@ export const ManageDevices = () => {
               }
               return (
                 <li key={device.deviceId}>
-                  <ManageDevice device={device} lastSeen={lastSeen} />
+                  <ManageDevice
+                    device={device}
+                    lastSeen={lastSeen}
+                    deleteDeviceHandler={() => {
+                      deleteDevice(device.deviceId).then(() => {
+                        refresh_devices();
+                      });
+                    }}
+                  />
                 </li>
               );
             })}
@@ -48,9 +60,10 @@ export const ManageDevices = () => {
 type ManageDeviceProps = {
   device: Device;
   lastSeen: string;
+  deleteDeviceHandler: () => void;
 };
 
-const ManageDevice = ({ device, lastSeen }: ManageDeviceProps) => {
+const ManageDevice = ({ device, lastSeen, deleteDeviceHandler }: ManageDeviceProps) => {
   return (
     <div className="bg-white rounded shadow p-4 text-gray-600">
       <div className="flex items-center justify-between ">
@@ -70,7 +83,11 @@ const ManageDevice = ({ device, lastSeen }: ManageDeviceProps) => {
               Delete this device
             </Button>
           }
-          confirmButton={<Button variant="danger">Delete</Button>}
+          confirmButton={
+            <Button variant="danger" onClick={deleteDeviceHandler}>
+              Delete
+            </Button>
+          }
         />
       </div>
     </div>

@@ -38,6 +38,13 @@ export const ConfirmationDialog = ({
     onClick: open,
   });
 
+  const confirm = React.cloneElement(confirmButton, {
+    onClick: () => {
+      confirmButton.props.onClick();
+      close();
+    },
+  });
+
   return (
     <>
       {trigger}
@@ -76,7 +83,7 @@ export const ConfirmationDialog = ({
             >
               {cancelButtonText}
             </Button>
-            {confirmButton}
+            {confirm}
           </div>
         </div>
       </Dialog>

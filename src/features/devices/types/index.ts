@@ -26,3 +26,5 @@ export type CreateDeviceResponse = {
   token: string;
   device: Device;
 };
+
+export type DeleteDeviceResponse = {};
