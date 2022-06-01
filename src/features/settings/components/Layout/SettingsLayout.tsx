@@ -1,4 +1,4 @@
-import { BellIcon, KeyIcon, UserIcon } from '@heroicons/react/outline';
+import { BellIcon, KeyIcon, UserIcon, DocumentTextIcon } from '@heroicons/react/outline';
 import { MainLayout, Sidebar } from '../../../../components/Layout';
 
 type SettingsLayoutProps = {
@@ -34,6 +34,16 @@ export const SettingsLayout = ({ children }: SettingsLayoutProps) => {
               <div>
                 <h2 className="font-semibold text-black">Security</h2>
                 <p>Manage your sessions and security log</p>
+              </div>
+            </div>
+          </Sidebar.NavLink>
+          <div className="flex-1"></div>
+          <Sidebar.NavLink to="../swagger">
+            <div className="flex items-center space-x-3 text-gray-600">
+              <DocumentTextIcon className="h-8 w-8" />
+              <div>
+                <h2 className="font-semibold text-black">API Documentation</h2>
+                <p>View OpenAPI specifications with SwaggerUI</p>
               </div>
             </div>
           </Sidebar.NavLink>
