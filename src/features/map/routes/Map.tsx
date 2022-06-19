@@ -16,8 +16,8 @@ import {
 } from '../../devices/reducer';
 import { Device } from '../../devices/types';
 
-import { MapContainer, Marker, TileLayer } from 'react-leaflet';
-import { divIcon, Map as LMap } from 'leaflet';
+import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
+import { divIcon, Map as LMap, Point } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { getOwnedDevicesPosition } from '../../devices/api/getDevicePositions';
 import { useMemo, useState } from 'react';
@@ -30,6 +30,8 @@ const markerIcon = divIcon({
   iconSize: [40, 40],
   iconAnchor: [20, 40],
 });
+
+const popupOffset = new Point(0, -20);
 
 export const Map = () => {
   const [map, setMap] = useState<LMap | null>(null);
@@ -58,8 +60,13 @@ export const Map = () => {
     }
   };
 
-  const displayMap = useMemo(
-    () => (
+  const displayMap = useMemo(() => {
+    const getDeviceNameByID = (id: string) => {
+      const device = devices.find((d) => d.deviceId === id);
+      return device?.name ?? null;
+    };
+
+    return (
       <MapContainer
         center={[-39.520397, 176.86227]}
         zoom={13}
@@ -79,13 +86,19 @@ export const Map = () => {
               key={index}
               position={[position.latitude, position.longitude]}
               icon={markerIcon}
-            />
+            >
+              <Popup offset={popupOffset}>
+                <div className="flex flex-col items-center">
+                  <span>{getDeviceNameByID(deviceId)}</span>
+                  <span>{new Date(position.createdAt).toLocaleString()}</span>
+                </div>
+              </Popup>
+            </Marker>
           );
         })}
       </MapContainer>
-    ),
-    [currentDevicePositions, hiddenDevices]
-  );
+    );
+  }, [devices, currentDevicePositions, hiddenDevices]);
   return (
     <MainLayout>
       <div className="flex h-full">
@@ -99,8 +112,8 @@ export const Map = () => {
               </button>
             </div>
           </Sidebar.Entry>
-          {devices.map((device) => (
-            <Sidebar.Entry className="mx-2">
+          {devices.map((device, index) => (
+            <Sidebar.Entry className="mx-2" key={index}>
               <DeviceEntry
                 key={device.deviceId}
                 device={device}
@@ -118,7 +131,7 @@ export const Map = () => {
 
 type DeviceEntryProps = {
   device: Device;
-} & React.ComponentProps<'li'>;
+} & React.ComponentProps<'div'>;
 
 const DeviceEntry = ({ device, className, onClick }: DeviceEntryProps) => {
   const dispatch = useAppDispatch();
@@ -134,7 +147,7 @@ const DeviceEntry = ({ device, className, onClick }: DeviceEntryProps) => {
   };
 
   return (
-    <li
+    <div
       className={clsx(
         'rounded hover:shadow cursor-pointer px-2 py-1 flex justify-between items-center',
         className
@@ -158,6 +171,6 @@ const DeviceEntry = ({ device, className, onClick }: DeviceEntryProps) => {
       >
         {show ? <EyeIcon className="h-6 w-6" /> : <EyeOffIcon className="h-6 w-6" />}
       </button>
-    </li>
+    </div>
   );
 };

@@ -45,6 +45,10 @@ axios.interceptors.response.use(
       })
     );
 
+    if (error.response?.status === 401) {
+      window.location.assign(window.location.origin);
+    }
+
     return Promise.reject(error);
   }
 );
